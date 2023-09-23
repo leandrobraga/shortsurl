@@ -20,6 +20,6 @@ func main() {
 		fmt.Fprintln(w, "teste")
 	})
 
-	fmt.Printf("Start server on port: %d", port)
-	http.ListenAndServe(fmt.Sprintf(":%d", port), r)
+	fmt.Printf("Start server on port: %d", *port)
+	http.ListenAndServe(fmt.Sprintf(":%d", *port), r)
 }

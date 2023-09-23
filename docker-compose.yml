@@ -2,7 +2,7 @@ version: '3'
 
 services:
   app:
-    image: .
+    build: .
     container_name: shortsurl
     command: go run ./cmd/api
     ports:
