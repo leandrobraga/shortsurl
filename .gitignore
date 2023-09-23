@@ -1,0 +1,5 @@
+.devcontainer/
+tmp/
+postgres-db/
+bin/
+.env
