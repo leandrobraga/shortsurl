@@ -3,23 +3,32 @@ package main
 import (
 	"flag"
 	"fmt"
-	"net/http"
-
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
+	"os"
 )
 
+type config struct {
+	port int
+}
+
+type application struct {
+	config config
+}
+
 func main() {
-	port := flag.Int("port", 4000, "Number of port to start server")
+	var cfg config
+
+	flag.IntVar(&cfg.port, "port", 4000, "Number of port to start server")
 
 	flag.Parse()
 
-	r := chi.NewMux()
-	r.Use(middleware.Logger)
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "teste")
-	})
+	app := &application{
+		config: cfg,
+	}
 
-	fmt.Printf("Start server on port: %d", *port)
-	http.ListenAndServe(fmt.Sprintf(":%d", *port), r)
+	err := app.serve()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
 }
