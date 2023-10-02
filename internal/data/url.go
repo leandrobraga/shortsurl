@@ -9,7 +9,7 @@ import (
 )
 
 type ShortUrl struct {
-	ID        string    `json:"id"`
+	ID        int64     `json:"id"`
 	Url       string    `validate:"required,url" json:"url"`
 	Code      string    `validate:"required,len=6" json:"code"`
 	CreatedAt time.Time `json:"createdAt"`

@@ -1,0 +1,1 @@
+ALTER TABLE shorturl ADD CONSTRAINT shorturl_code_check CHECK (LENGTH(code) > 6);

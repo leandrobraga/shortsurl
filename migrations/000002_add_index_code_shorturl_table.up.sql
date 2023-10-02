@@ -1,0 +1,1 @@
+CREATE INDEX idx_shorturl_code ON shorturl(code)

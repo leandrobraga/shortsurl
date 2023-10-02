@@ -1,0 +1,1 @@
+ALTER TABLE shorturl DROP CONSTRAINT IF EXISTS shorturl_code_check;
