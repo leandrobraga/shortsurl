@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -35,9 +36,18 @@ func (app *application) createshortUrlHandler(w http.ResponseWriter, r *http.Req
 		return
 	}
 
+	shorUrlModel := data.ShortUrlModel{
+		DB: app.db,
+	}
+	err := shorUrlModel.Insert(url)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte("here the code in json"))
+	w.Write([]byte(fmt.Sprintf(`{"code":"%s"}`, url.Code)))
 }
 
 func (app *application) redirectUrlHandler(w http.ResponseWriter, r *http.Request) {
