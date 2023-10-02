@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func codeGenerator(length int) string {
+func CodeGenerator(length int) string {
 	source := rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"

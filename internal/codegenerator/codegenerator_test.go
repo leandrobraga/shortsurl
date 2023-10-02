@@ -15,7 +15,7 @@ func TestCodeGenerator(t *testing.T) {
 
 	for _, tc := range testCase {
 		t.Run("", func(t *testing.T) {
-			randomString := codeGenerator(tc.length)
+			randomString := CodeGenerator(tc.length)
 
 			if len(randomString) != tc.length {
 				t.Errorf("Expected random string of length %d, but got length %d", tc.length, len(randomString))
