@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -19,11 +18,22 @@ func (app *application) createshortUrlHandler(w http.ResponseWriter, r *http.Req
 		return
 	}
 
-	url := &data.Url{
+	url := &data.ShortUrl{
 		Url:  input.Url,
 		Code: codegenerator.CodeGenerator(6),
 	}
-	fmt.Println(url)
+	ok, errors := url.IsValid()
+	if !ok {
+		data, err := json.Marshal(errors)
+		if err != nil {
+			w.WriteHeader(500)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write(data)
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)

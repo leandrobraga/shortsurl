@@ -5,7 +5,7 @@ import (
 )
 
 func TestUrlWithWrongUrl(t *testing.T) {
-	input := Url{
+	input := ShortUrl{
 		Url:  "badformatted.com",
 		Code: "abc123",
 	}
@@ -24,7 +24,7 @@ func TestUrlWithWrongUrl(t *testing.T) {
 }
 
 func TestUrlWithWrongCode(t *testing.T) {
-	input := Url{
+	input := ShortUrl{
 		Url:  "https://goodurl.com.br",
 		Code: "a1i2",
 	}
@@ -43,7 +43,7 @@ func TestUrlWithWrongCode(t *testing.T) {
 }
 
 func TestUrlRequired(t *testing.T) {
-	input := Url{
+	input := ShortUrl{
 		Url:  "",
 		Code: "123qwe",
 	}
@@ -61,7 +61,7 @@ func TestUrlRequired(t *testing.T) {
 }
 
 func TestCodeRequired(t *testing.T) {
-	input := Url{
+	input := ShortUrl{
 		Url:  "https://goodurl.com.br",
 		Code: "",
 	}
@@ -79,7 +79,7 @@ func TestCodeRequired(t *testing.T) {
 }
 
 func TestWithNoError(t *testing.T) {
-	input := Url{
+	input := ShortUrl{
 		Url:  "https://goodurl.com.br",
 		Code: "aBc123",
 	}
