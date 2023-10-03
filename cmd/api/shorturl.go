@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -52,6 +53,22 @@ func (app *application) createshortUrlHandler(w http.ResponseWriter, r *http.Req
 
 func (app *application) redirectUrlHandler(w http.ResponseWriter, r *http.Request) {
 	code := chi.URLParam(r, "code")
-	_ = code
-	http.Redirect(w, r, "https://google.com.br", http.StatusTemporaryRedirect)
+
+	shortUrlModel := data.ShortUrlModel{
+		DB: app.db,
+	}
+
+	shortUrl, err := shortUrlModel.GetByCode(code)
+	if err != nil {
+		switch {
+		case errors.Is(err, errors.New("record not found")):
+			http.Error(w, err.Error(), http.StatusNotFound)
+			return
+		default:
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
+
+	http.Redirect(w, r, shortUrl.Url, http.StatusTemporaryRedirect)
 }
