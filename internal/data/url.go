@@ -3,6 +3,7 @@ package data
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	"time"
 
@@ -52,4 +53,31 @@ func (m *ShortUrlModel) Insert(u *ShortUrl) error {
 	defer cancel()
 
 	return m.DB.QueryRowContext(ctx, query, u.Url, u.Code).Scan(&u.ID, &u.CreatedAt)
+}
+
+func (m *ShortUrlModel) GetByCode(c string) (*ShortUrl, error) {
+	query := `SELECT * FROM shorturl WHERE code = $1`
+
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	var shortUrl ShortUrl
+	err := m.DB.QueryRowContext(ctx, query, c).Scan(
+		&shortUrl.ID,
+		&shortUrl.Url,
+		&shortUrl.Code,
+		&shortUrl.CreatedAt,
+	)
+
+	if err != nil {
+		switch {
+		case errors.Is(err, sql.ErrNoRows):
+			return nil, errors.New("record not found")
+		default:
+			return nil, err
+		}
+	}
+
+	return &shortUrl, nil
+
 }
