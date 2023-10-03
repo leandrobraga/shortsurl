@@ -3,3 +3,4 @@ tmp/
 postgres-db/
 bin/
 .env
+coverage.out

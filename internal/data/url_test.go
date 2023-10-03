@@ -91,5 +91,4 @@ func TestWithNoError(t *testing.T) {
 	if len(errors) != 0 {
 		t.Errorf("Expected %d, but got %d", 1, len(errors))
 	}
-
 }

@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"fmt"
 	"time"
 
 	"github.com/go-playground/validator/v10"
@@ -42,7 +41,6 @@ func (u *ShortUrl) IsValid() (bool, []ErrorResponse) {
 }
 
 func (m *ShortUrlModel) Insert(u *ShortUrl) error {
-	fmt.Println(u.Code)
 	query := `
 		INSERT INTO shorturl (url, code) 
 		VALUES ($1, $2) 
@@ -79,5 +77,4 @@ func (m *ShortUrlModel) GetByCode(c string) (*ShortUrl, error) {
 	}
 
 	return &shortUrl, nil
-
 }
